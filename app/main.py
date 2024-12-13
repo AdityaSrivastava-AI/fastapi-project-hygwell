@@ -8,14 +8,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 app = FastAPI()
 
-# In-memory data store
+# In memory storing the data  
 data_store = {}
 
-# Model for URL input
+# Making model for URL input
 class URLRequest(BaseModel):
     url: str
 
-# Endpoint 1: Process Web URL
+# Installing Endpoint 1: Process Web URL
 @app.post("/process_url")
 def process_url(request: URLRequest):
     response = requests.get(request.url)
@@ -24,7 +24,7 @@ def process_url(request: URLRequest):
     data_store[chat_id] = content
     return {"chat_id": chat_id, "message": "URL content processed and stored successfully."}
 
-# Endpoint 2: Process PDF Document
+# Installing Endpoint 2: Process PDF Document
 @app.post("/process_pdf")
 def process_pdf(file: UploadFile = File(...)):
     pdf_reader = PyPDF2.PdfReader(file.file)
@@ -33,7 +33,7 @@ def process_pdf(file: UploadFile = File(...)):
     data_store[chat_id] = text
     return {"chat_id": chat_id, "message": "PDF content processed and stored successfully."}
 
-# Endpoint 3: Chat with Processed Content
+# Installing Endpoint 3: Chat with Processed Content
 @app.post("/chat")
 def chat(chat_id: str, question: str):
     if chat_id not in data_store:
